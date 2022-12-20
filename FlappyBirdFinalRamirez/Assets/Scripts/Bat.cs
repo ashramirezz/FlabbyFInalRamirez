@@ -1,8 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Bird : MonoBehaviour
+public class Bat: MonoBehaviour
 {
     public float upForce;                       //Upward force of the "flap".
     private bool isDead = false;                //Has the player collider with a wall?
@@ -15,7 +14,7 @@ public class Bird : MonoBehaviour
     void Start()
     {
         //Get reference to the Animator component attached to this GameObject.
-        anim = GetComponent<Animator>();
+        anim = GetComponent<Animator> ();
         //Get  and store a reeference to the Rigidbody2D attached to this GameObject.
         rb2d = GetComponent<Rigidbody2D>();
     }
@@ -30,7 +29,7 @@ public class Bird : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 //. . . tell the animator about it and then . . .
-                AnimatorUtility.SetTrigger("Flap");
+                anim.SetTrigger("Flap");
                 // . . . zero out the birds current y velocity before . . .
                 rb2d.velocity = Vector2.zero;
                 //  new Vector2(rb2d.velocity.x 0);
@@ -45,6 +44,11 @@ public class Bird : MonoBehaviour
         //Zero out the bird's velocity
         rb2d.velocity = Vector2.zero;
         //If the bird collides with something set it to dead. . .
+        isDead = true;
+        //. . . tell the Animator about it. . . 
+        anim.SetTrigger ("Die");
+        //. . .  and tell the game control about it.
+        GameControl.instance.BatDied ();
     }
 
 }
